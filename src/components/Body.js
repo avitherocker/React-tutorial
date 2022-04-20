@@ -9,12 +9,15 @@ class Body extends React.Component {
            }
 
            this.handleChange=this.handleChange.bind(this);
+           this.submitForm=this.submitForm.bind(this);
     }
 
 
     submitForm(e){
 
         e.preventDefault();
+
+        console.log(this.state);
         
 
 
@@ -36,10 +39,13 @@ class Body extends React.Component {
         //Controllable Component
          <React.Fragment>
             
+                <label>{this.state.name}</label>
                 <form  onSubmit={this.submitForm}>
 
                    <input name="name" value={this.state.name}  onChange={this.handleChange} ></input>
                    <input name="class" value={this.state.class}  onChange={this.handleChange} ></input>
+
+                   <button type="submit">submit</button>
 
                 </form>
 
