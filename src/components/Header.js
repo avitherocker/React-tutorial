@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';  
+import { Link } from "react-router-dom";
 
 
 export default class Header extends Component {
@@ -27,7 +28,7 @@ export default class Header extends Component {
      * 
      1-Initialzation getDefaultProps,getIntialState
      2-Mounting
-     componentWillMount()-Depericated it calls before intialization of dome
+     componentWillMount()-Depericated it calls before intialization of dom
      componentDidMount()-Calls when dom is initialized
      render()-return the html over the dom
      3-Updation
@@ -51,12 +52,12 @@ export default class Header extends Component {
    }
 
    componentWillUnmount(){
-       console.log("componentWillUnmount");
+       //console.log("componentWillUnmount");
    }
 
    componentDidUpdate(prevProps,prevState){
    
-      console.log("update me")
+     console.log("update me")
    }
 
 
@@ -76,10 +77,15 @@ export default class Header extends Component {
 
 
   render() {
-    console.log("consol")
+    console.log("render")
     const {title,companyName}=this.state;
 
     const {keys}=this.props;
+
+    const headerMenu=  keys.map((item,key)=>{
+        return (<Link to={item.url} key={key}>{item.name}</Link>)
+
+     }) ;
 
     return (
       <div>
@@ -94,10 +100,7 @@ export default class Header extends Component {
             <nav>
               {
                   
-                 keys.map((item,key)=>{
-                    return (<a href="#" key={key}>{item}</a>)
-
-                 }) 
+                  headerMenu
               
               
               }

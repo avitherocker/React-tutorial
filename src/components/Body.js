@@ -1,15 +1,23 @@
 import React from "react";
 
+const TextInput = React.forwardRef((props, ref) => (  
+  <input type="text" placeholder="Hello World" ref={ref} />  
+));  
+  
+
 class Body extends React.Component {
     constructor(props){
            super(props);
            this.state={
                name:"",
-               class:""
+               class:"",
+               bool:false
            }
 
            this.handleChange=this.handleChange.bind(this);
            this.submitForm=this.submitForm.bind(this);
+           this.callRef = React.createRef();  
+           this.submitForm = this.submitForm.bind(this);  
     }
 
 
@@ -17,7 +25,10 @@ class Body extends React.Component {
 
         e.preventDefault();
 
-        console.log(this.state);
+        console.log(this.callRef.current.value);
+        //this.setState({bool:true})
+
+      
         
 
 
@@ -31,6 +42,12 @@ class Body extends React.Component {
              [e.target.name]:e.target.value
 
         })
+
+       
+    }
+
+    forC(e){
+        alert("dffds");
     }
 
   render() {
@@ -39,12 +56,21 @@ class Body extends React.Component {
         //Controllable Component
          <React.Fragment>
             
-                <label>{this.state.name}</label>
+                {
+                
+                this.state.bool ?
+                
+                <label>{this.state.name}</label>:""
+                
+                
+                
+                }
+
                 <form  onSubmit={this.submitForm}>
 
                    <input name="name" value={this.state.name}  onChange={this.handleChange} ></input>
-                   <input name="class" value={this.state.class}  onChange={this.handleChange} ></input>
-
+                   <input name="class" value={this.state.class}  onClick={this.forC}  onChange={this.handleChange} ></input>
+                    <TextInput  ref={this.callRef}></TextInput>
                    <button type="submit">submit</button>
 
                 </form>
