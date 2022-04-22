@@ -7,8 +7,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Body from "./components/Body";
 import Faq from "./components/Faq";
 import NotFound from "./components/NotFound";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <BrowserRouter>
@@ -27,6 +28,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+      <Footer title="Footer"/>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Footer(props) {
+    console.log("con",props);
   return (
     <footer id="site-footer">
       <section className="horizontal-footer-section" id="footer-top-section">
