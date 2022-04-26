@@ -8,6 +8,10 @@ import Body from "./components/Body";
 import Faq from "./components/Faq";
 import NotFound from "./components/NotFound";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import withHoc from "./components/Hoc";
+
+const Dash = withHoc(Faq)
+
 
 function App(props) {
   return (
@@ -23,7 +27,7 @@ function App(props) {
         />
         <Routes>
           <Route path="/" element={<Body />} exact />
-          <Route path="/faq" element={<Faq />} exact />
+          <Route path="/faq" element={<Dash></Dash>} exact />
           <Route  path='*'  element={<NotFound />} exact />
 
         </Routes>

@@ -1,8 +1,10 @@
 import React from "react";
-
+import withHoc from "./Hoc";
 const TextInput = React.forwardRef((props, ref) => (  
   <input type="text" placeholder="Hello World" ref={ref} />  
 ));  
+
+
   
 
 class Body extends React.Component {
@@ -20,6 +22,10 @@ class Body extends React.Component {
            this.submitForm = this.submitForm.bind(this);  
     }
 
+    componentDidMount(){
+      console.log("props",this.props);
+    }
+  
 
     submitForm(e){
 
@@ -33,6 +39,8 @@ class Body extends React.Component {
 
 
     }
+
+   
 
 
     handleChange(e){
@@ -85,4 +93,4 @@ class Body extends React.Component {
   }
 }
 
-export default Body;
+export default withHoc(Body);

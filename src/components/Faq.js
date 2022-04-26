@@ -21,6 +21,11 @@ export default class Faq extends Component {
   toggle(val) {
     this.setState({ open: val });
   }
+  
+
+  componentDidMount(){
+    console.log(this.props);
+  }
 
   render() {
     return (
