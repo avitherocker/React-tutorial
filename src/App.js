@@ -1,65 +1,65 @@
 import "./App.css";
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from "react";
 import Header from "./components/Header";
 import Footer from "./containers/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Faq from "./components/Faq";
+
 import NotFound from "./components/NotFound";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import withHoc from "./components/Hoc";
 import Body1 from "./components/Reference/Body1";
-const Dash = withHoc(Faq)
+import About from "./components/About";
+import Frontend from "./components/Layout/Frontend";
 
+import { withRouter } from "./components/Hoc/withRouter";
+import Backend from "./components/Layout/Backend";
 
+const FaqLazy = lazy(() => import("./components/Faq"));
+const Dash = withHoc(FaqLazy);
 
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: true,
+    };
 
+    this.callRef = React.createRef();
+    this.ClickHere = this.ClickHere.bind(this);
+  }
 
-export default class App extends Component {
+  componentDidMount() {
+    let dd = this;
+    setTimeout(() => {
+      dd.setState({ time: false });
+    }, 2000);
+  }
 
-     constructor(props){
-       super(props);
-
-       this.callRef=React.createRef();
-       this.ClickHere=this.ClickHere.bind(this);
-     }
-
-
-     
-     ClickHere(e){
-          e.preventDefault();
-          console.log("--------------")
-       console.log(this.callRef.current.click());
-
-     }
+  ClickHere(e) {
+    e.preventDefault();
+    console.log("--------------", this.props);
+    // console.log(this.callRef.current.click());
+  }
 
   render() {
     return (
       <div className="App">
-        <BrowserRouter>
-          <Header
-            keys={[
-              { name: "Home", url: "/" },
-              { name: "FAQ", url: "/faq" },
-              { name: "About", url: "/about-us" },
-              { name: "Contact", url: "/contact" },
-            ]}
-          />
-
-           <button onClick={this.ClickHere}>CLick me</button>
-
+        <Suspense fallback={<div>Loading</div>}>
           <Routes>
-            <Route path="/" element={<Body1  ref={this.callRef}/>} exact />
-            <Route path="/faq" element={<Dash></Dash>} exact />
-            <Route  path='*'  element={<NotFound />} exact />
-  
+            <Route path="/" element={<Frontend></Frontend>}>
+              <Route index element={<Body1 ref={this.callRef} {...this.props}/>} />
+            </Route>
+            <Route path="/admin" element={<Backend />}>
+              <Route index element={<Dash></Dash>} />
+              <Route path="about-us/:username" element={<About />}></Route>
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-        <Footer title="Footer"/>
+        </Suspense>
       </div>
     );
   }
 }
 
-
-
-
+export default withRouter(App);

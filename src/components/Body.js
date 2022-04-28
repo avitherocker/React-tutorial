@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component,Suspense  } from 'react'
 import withHoc from "./Hoc";
 const TextInput = React.forwardRef((props, ref) => (
   <input type="text" placeholder="Hello World" ref={ref} />
@@ -25,7 +25,8 @@ class Body extends React.Component {
 
   submitForm(e) {
     e.preventDefault();
-    console.log(this.callRef.current,"fdfsdf hsndndn");
+    console.log(this.callRef.current,"fdfsdf hsndndn",this.props.navigate);
+    
   }
 
   handleChange(e) {
@@ -45,11 +46,13 @@ class Body extends React.Component {
         {this.state.bool ? <label>{this.state.name}</label> : ""}
 
         <form onSubmit={this.submitForm} >
+          <Suspense fallback={<div>Loading...</div>}>
           <input
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
           ></input>
+          </Suspense>
           <input
             name="class"
             value={this.state.class}
