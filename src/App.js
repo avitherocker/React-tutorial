@@ -13,6 +13,7 @@ import Frontend from "./components/Layout/Frontend";
 
 import { withRouter } from "./components/Hoc/withRouter";
 import Backend from "./components/Layout/Backend";
+import ThemeContext from "./context/ThemeContext";
 
 const FaqLazy = lazy(() => import("./components/Faq"));
 const Dash = withHoc(FaqLazy);
@@ -44,6 +45,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <ThemeContext.Provider value="light">
         <Suspense fallback={<div>Loading</div>}>
           <Routes>
             <Route path="/" element={<Frontend></Frontend>}>
@@ -54,9 +56,11 @@ class App extends Component {
               <Route path="about-us/:username" element={<About />}></Route>
             </Route>
 
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        </ThemeContext.Provider>
       </div>
     );
   }

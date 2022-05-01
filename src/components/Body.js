@@ -1,5 +1,7 @@
 import React, { Component,Suspense  } from 'react'
+import ThemeContext from '../context/ThemeContext';
 import withHoc from "./Hoc";
+import {getEmployee,create} from './../services/api/employee'
 const TextInput = React.forwardRef((props, ref) => (
   <input type="text" placeholder="Hello World" ref={ref} />
 ));
@@ -8,7 +10,7 @@ class Body extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      "name":"test","salary":"123","age":"23",
       class: "",
       bool: false,
     };
@@ -19,13 +21,30 @@ class Body extends React.Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
+  static contextType=ThemeContext;
+
   componentDidMount() {
-    console.log("props", this.props);
+
+    getEmployee().then(data=>{
+
+      console.log("checking",data);
+
+    }).catch(err=>{
+
+
+    })  
+
+    console.log("props contexrt................", this.props,this.context);
   }
 
   submitForm(e) {
     e.preventDefault();
-    console.log(this.callRef.current,"fdfsdf hsndndn",this.props.navigate);
+    const postobject=this.state;
+    create(postobject).then(data=>{
+    
+      console.log("data",data);
+    })
+    
     
   }
 
