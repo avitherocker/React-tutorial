@@ -10,10 +10,11 @@ class Body extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "test",
-      salary: "123",
-      age: "23",
-      class: "",
+      email: "",
+      password: "",
+      contact: "",
+      first_name:"",
+      last_name:"",
       bool: false,
     };
 
@@ -25,21 +26,10 @@ class Body extends React.Component {
 
   static contextType = ThemeContext;
 
-  componentDidMount() {
-    getEmployee()
-      .then((data) => {
-        console.log("checking", data);
-      })
-      .catch((err) => {});
-
-    console.log("props contexrt................", this.props, this.context);
-  }
-
   submitForm(e) {
     e.preventDefault();
     const postobject = {
-      email: "p@gmail.com",
-      password: "12345678",
+     
     };
     create(postobject).then((data) => {
       console.log("data", data);

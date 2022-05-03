@@ -10,7 +10,7 @@ export default class Frontend extends Component {
         <Header />
 
         <Outlet />
-        <Footer title="Footer" />
+       
       </div>
     );
   }
