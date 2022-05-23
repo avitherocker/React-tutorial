@@ -2,6 +2,8 @@ import React, { Component, Suspense } from "react";
 import ThemeContext from "../context/ThemeContext";
 import withHoc from "./Hoc";
 import { getEmployee, create } from "./../services/api/employee";
+import { connect } from "react-redux";
+import * as action from "./../redux/actions"
 const TextInput = React.forwardRef((props, ref) => (
   <input type="text" placeholder="Hello World" ref={ref} />
 ));
@@ -22,6 +24,7 @@ class Body extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.callRef = React.createRef();
     this.submitForm = this.submitForm.bind(this);
+    this.add=this.add.bind(this);
   }
 
   static contextType = ThemeContext;
@@ -44,6 +47,25 @@ class Body extends React.Component {
     });
   }
 
+
+  add(e){
+
+    e.preventDefault();
+
+    let count =this.props.count;
+    
+    count ++ ;
+
+    this.props.dispatch(action.incrementOrdecrement(count))
+
+  }
+
+
+  sub(e){
+
+
+  }
+
   forC(e) {
     //alert("dffds");
   }
@@ -52,30 +74,27 @@ class Body extends React.Component {
     return (
       //Controllable Component
       <React.Fragment>
-        {this.state.bool ? <label>{this.state.name}</label> : ""}
 
-        <form onSubmit={this.submitForm}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <input
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            ></input>
-          </Suspense>
-          <input
-            name="class"
-            value={this.state.class}
-            onClick={this.forC}
-            onChange={this.handleChange}
-          ></input>
-          <TextInput ref={this.callRef}></TextInput>
-          <button type="submit" ref={this.props.innerRef}>
-            submit
-          </button>
-        </form>
+       <input type="text" value={this.props.count}></input>
+       <button onClick={this.add}>plus</button>
+
+       <button onClick={this.sub}>minus</button>
+
+
+
+      
       </React.Fragment>
     );
   }
 }
 
-export default Body;
+const mapStatetoProps=(state)=>{
+
+   return {
+
+       count:state.Auth.counter
+
+   }
+
+}
+export default connect(mapStatetoProps)(Body);

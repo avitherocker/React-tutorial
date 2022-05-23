@@ -3,6 +3,7 @@ import React, { Component, Suspense, lazy } from "react";
 import Header from "./components/Header";
 import Footer from "./containers/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { connect, Provider } from "react-redux";
 
 import NotFound from "./components/NotFound";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -43,28 +44,36 @@ class App extends Component {
   }
 
   render() {
+    console.log("In render", this.props);
     return (
       <div className="App">
         <ThemeContext.Provider value="light">
-        <Suspense fallback={<div>Loading</div>}>
-          
-          <Routes>
-            <Route path="/" element={<Frontend></Frontend>}>
-              <Route index element={<Body1 ref={this.callRef} {...this.props}/>} />
-            </Route>
-            <Route path="/admin" element={<Backend />}>
-              <Route index element={<Dash></Dash>} />
-              <Route path="about-us/:username" element={<About />}></Route>
-            </Route>
+          <Suspense fallback={<div>Loading</div>}>
+            <Routes>
+              <Route path="/" element={<Frontend></Frontend>}>
+                <Route
+                  index
+                  element={<Body1 ref={this.callRef} {...this.props} />}
+                />
+              </Route>
+              <Route path="/admin" element={<Backend />}>
+                <Route index element={<Dash></Dash>} />
+                <Route path="about-us/:username" element={<About />}></Route>
+              </Route>
 
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </ThemeContext.Provider>
       </div>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = (state) => {
+  console.log("=------------------", state);
+
+  return { isLoading: state.Auth.isLoading, myvalue: 3 };
+};
+
+export default connect(mapStateToProps)(withRouter(App));
