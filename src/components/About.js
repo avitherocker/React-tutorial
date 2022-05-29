@@ -1,55 +1,82 @@
 import React, { useState, useMemo,useContext, useEffect } from "react";
 import ThemeContext from "../context/ThemeContext";
+const initList=[1,2,3,4,5,6,7,8,9];
 const About = () => {
-  const [count, setCount] = useState(0);
-  const [todos, setTodos] = useState([]);
-  const calculation = useMemo(() => expensiveCalculation(count), [count]);
+  const [list, setList] = useState(initList);
+  const [dragList, setDragList] = useState(null);
+  const [draggedItem, setDraggedItem] = useState(null);
 
-  const increment = () => {
-    setCount((c) => c + 1);
+  /**
+   * On drag start
+   * Initialize the temporary item being dragged and drag list.
+   */
+  const onDragStartHandle = index => e => {
+    setDraggedItem(list[index]);
+    setDragList(list);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.target.parentNode);
+    e.dataTransfer.setDragImage(e.target.parentNode, 20, 22);
   };
-  const addTodo = () => {
-    setTodos((t) => [...t, "New Todo"]);
+
+  /**
+   * On drag end
+   * Save updated drag list to list and nullify temporary values.
+   */
+  const onDragEndHandle = e => {
+    e.preventDefault();
+    setList(dragList);
+    setDragList(null);
+    setDraggedItem(null);
   };
 
-  const context =useContext(ThemeContext);
+  /**
+   * On drag leave
+   * Item wasn't dropped so reset temporary drag list
+   */
+  const onDragLeaveHandle = e => {
+    e.preventDefault();
+    setDragList(list);
+  };
 
+  /**
+   * On drag over
+   * If dragging over another item update the drag list with new position
+   */
+  const onDragOverHandle = index => e => {
+    e.preventDefault();
 
-  useEffect(()=>{
+    const draggedOverItem = dragList[index];
 
-     console.log("context",context);
+    if (draggedOverItem === draggedItem) {
+      return;
+    }
 
-  },[])
+    const items = dragList.filter(item => item !== draggedItem);
+    items.splice(index, 0, draggedItem);
+    setDragList(items);
+  };
 
   return (
-    <div>
-
-      
-
-      <div>
-        <h2>My Todos</h2>
-        {todos.map((todo, index) => {
-          return <p key={index}>{todo}</p>;
-        })}
-        <button onClick={addTodo}>Add Todo</button>
-      </div>
-      <hr />
-      <div>
-        Count: {count}
-        <button onClick={increment}>+</button>
-        <h2>Expensive Calculation</h2>
-        {calculation}
-      </div>
+    <div className="about">
+      <header className="about-header">
+        <h3>Drag'n'Drop</h3>
+        <ul>
+          {(draggedItem ? dragList : list).map((item, index) => (
+            <li key={index} className="item-style">
+              <div
+                draggable
+                onDragOver={onDragOverHandle(index)}
+                onDragLeave={onDragLeaveHandle}
+                onDragEnd={onDragEndHandle}
+                onDragStart={onDragStartHandle(index)}
+              >
+                {item}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </header>
     </div>
   );
-};
-
-const expensiveCalculation = (num) => {
-  console.log("Calculating...");
-  for (let i = 0; i < 1000000000; i++) {
-    num += 1;
-  }
-  return num;
-};
-
+}
 export default About;

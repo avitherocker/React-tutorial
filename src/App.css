@@ -439,3 +439,38 @@ footer#site-footer #footer-social-buttons img:hover {
         margin-top: 1.32rem;
     }
 }
+
+
+
+.about {
+    text-align: center;
+  }
+  
+  .about-logo {
+    animation: about-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  .about-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .about-link {
+    color: #61dafb;
+  }
+  
+  .item-style {
+    list-style: none;
+    border: 1px solid gray;
+    width: 50px;
+    margin-bottom: 5px;
+  }
+  

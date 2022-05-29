@@ -11,8 +11,6 @@ export function getUserDetails(payload){
 
 export function incrementOrdecrement(payload){
 
-    console.log(payload);
-
     return {
         type:"incrementOrdecrement",
         payload
